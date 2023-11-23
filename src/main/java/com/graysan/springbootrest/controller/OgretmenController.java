@@ -11,11 +11,33 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/ogretmen")
+@RestControllerAdvice(basePackageClasses = OgretmenRepository.class)
 public class OgretmenController {
     private final OgretmenRepository ogretmenRepository;
 
     public OgretmenController(OgretmenRepository ogretmenRepository) {
         this.ogretmenRepository = ogretmenRepository;
+    }
+
+    //	@ExceptionHandler(value = BadSqlGrammarException.class)
+//	public String badSqlGrammerExceptionHandler(BadSqlGrammarException e)
+//	{
+//		System.err.println("Bad sql yakalandı -> " + e.getMessage());
+//		return "bad sql hatası";
+//	}
+
+    @ExceptionHandler(value = ArithmeticException.class)
+    // bu mantıksız yöntem
+//	@ResponseStatus(code = HttpStatus.IM_USED, reason = "invalid jdbc usage")
+//	public String aritmetichandler(ArithmeticException e)
+    public ResponseEntity<String> aritmetichandler(ArithmeticException e)
+    {
+        // server.error.include-message = always
+        System.err.println(e.getMessage());
+        // isterseniz responseentity döndürebilirsiniz
+        return ResponseEntity.status(HttpStatus.IM_USED).body("yazılımcı kodu yanlış yazmış");
+        // veya aşağıdaki gibi döndürülebilir
+//		return "yazılımcı kodu yanlış yazmış";
     }
 
     @GetMapping(path = "/getall", produces = MediaType.APPLICATION_JSON_VALUE)
