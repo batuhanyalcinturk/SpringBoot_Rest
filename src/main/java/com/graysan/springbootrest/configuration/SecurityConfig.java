@@ -11,6 +11,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+// metodların üstünde @secured veya @preauthorize yazabilmek için gerekli
+// request matcher alternatifi olarak
+// @EnableMethodSecurity(securedEnabled = true)
+// @EnableGlobalMethodSecurity // deprecate oldu
 public class SecurityConfig {
 
     @Bean
@@ -46,22 +50,17 @@ public class SecurityConfig {
         // -----------------------------------------
 //		http.authorizeHttpRequests(customizer -> customizer.requestMatchers(HttpMethod.DELETE).authenticated().anyRequest().permitAll());
 //		http.authorizeHttpRequests(customizer -> customizer.requestMatchers(HttpMethod.GET).hasRole("ADMIN"));
-        http.authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated());
+//		http.authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated());
         // ------------------- buradan aşağı dokunma -------------
         // post yapabilmek için
         http.csrf(customizer -> customizer.disable());
-        // stateless, postman 'da request 'leri cache 'lememesi için, çünkü burası
-        // restull
+        // stateless, postman 'da request 'leri cache 'lememesi için, çünkü burası restull
         http.sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // sırası muhtemelen önemlidir
         http.addFilter(new JWTAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()));
         // login ' giderken önce token kontrolden geçmesin diye
         http.addFilterAfter(new JWTAuthorizationFilter(), JWTAuthenticationFilter.class);
-        // eski metod
-        // http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().addFilter(new
-        // JWTAuthorizationFilter()).addFilter(new
-        // JWTAuthenticationFilter(authenticationConfiguration.getAuthenticationManager())).authorizeRequests().requestMatchers(HttpMethod.POST).authenticated().and().authorizeRequests().anyRequest().permitAll();
         return http.build();
     }
 }

@@ -2,6 +2,10 @@ package com.graysan.springbootrest.controller;
 
 import com.graysan.springbootrest.model.Konu;
 import com.graysan.springbootrest.repository.KonuRepository;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/konu")
+@Tag(name = "konu", description = "Konu API") // classın swagger'da tanımlanması
 public class KonuController {
 
     private final KonuRepository konuRepository;
@@ -33,6 +38,7 @@ public class KonuController {
     }
 
     @GetMapping(path = "/getbyid/{id}")
+    @Operation(parameters = @Parameter(name = "id", description = "istenen id"), description = "Bulunursa 200 bulunamazsa 404", summary = "ID ile getir")
     public ResponseEntity<Konu> getById(@PathVariable(name = "id") long id)
     {
         // localhost:8080/konu/getbyid/1
@@ -49,6 +55,7 @@ public class KonuController {
     }
 
     @DeleteMapping(path = "/delete/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    @Hidden // bu methodu swagger'da gizledik
     public ResponseEntity<String> deleteById(@PathVariable(name = "id") long id)
     {
         // localhost:8080/konu/delete/1
