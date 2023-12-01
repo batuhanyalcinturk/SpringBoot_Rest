@@ -2,6 +2,8 @@ package com.graysan.springbootrest.controller;
 
 import com.graysan.springbootrest.model.Ogrenci;
 import com.graysan.springbootrest.repository.OgrenciRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import java.util.List;
 public class OgrenciController {
 
     private final OgrenciRepository ogrenciRepository;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public OgrenciController(OgrenciRepository ogrenciRepository) {
         this.ogrenciRepository = ogrenciRepository;
@@ -34,10 +38,14 @@ public class OgrenciController {
     @GetMapping(path = "/getbyid/{id}")
     public ResponseEntity<Ogrenci> getById(@PathVariable(name = "id") long id)
     {
+        // Log seviyeleri önemliden önemsize
+        // FATAL - ERROR - WARN - INFO - DEBUG - TRACE
+
         // localhost:8080/ogrenci/getbyid/1
         try
         {
             Ogrenci ogr = ogrenciRepository.getByID(id);
+            logger.info("ÖĞRENCİ get by id yapıldı");
             return ResponseEntity.ok(ogr);
         }
         catch (Exception e)
