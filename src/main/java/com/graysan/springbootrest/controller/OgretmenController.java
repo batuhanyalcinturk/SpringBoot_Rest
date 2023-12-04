@@ -2,21 +2,26 @@ package com.graysan.springbootrest.controller;
 
 import com.graysan.springbootrest.model.Ogretmen;
 import com.graysan.springbootrest.repository.OgretmenRepository;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(path = "/ogretmen")
 @RestControllerAdvice(basePackageClasses = OgretmenRepository.class)
 public class OgretmenController {
     private final OgretmenRepository ogretmenRepository;
+    private final MessageSource messageSource;
 
-    public OgretmenController(OgretmenRepository ogretmenRepository) {
+    public OgretmenController(OgretmenRepository ogretmenRepository, ResourceBundleMessageSource messageSource) {
         this.ogretmenRepository = ogretmenRepository;
+        this.messageSource = messageSource;
     }
 
     //	@ExceptionHandler(value = BadSqlGrammarException.class)
@@ -68,23 +73,28 @@ public class OgretmenController {
         }
     }
 
-    @DeleteMapping(path = "/delete/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> deleteById(@PathVariable(name = "id") long id)
+    @DeleteMapping(path = "deletebyid/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> deleteById(Locale locale, @PathVariable(name = "id") long id)
     {
-        // localhost:8080/ogretmen/delete/1
+        // localhost:8080/ogretmen/deletebyid/1
+        Object[] params = new Object[1];
+        params[0] = id;
         try
         {
             boolean result = ogretmenRepository.deleteByID(id);
-            if(result){
-                return ResponseEntity.ok(id + "nolu kayıt başarı ile silindi.");
-            }else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(id + " nolu kayıt bulunamadı");
+            if (result)
+            {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageSource.getMessage("ogretmen.delete.success", params, locale));
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageSource.getMessage("ogretmen.delete.notfound", params, locale));
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(id + " nolu kayıt silinemedi");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageSource.getMessage("ogretmen.delete.error", params, locale));
         }
     }
 

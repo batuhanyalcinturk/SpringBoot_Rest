@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestController
-@RestControllerAdvice
+//@RestController
+//@RestControllerAdvice
 public class ErrorController
 {
-	@ExceptionHandler
-	public ResponseEntity<String> errorhandler(Exception e)
-	{
-		if (e.getClass() == BadSqlGrammarException.class)
-		{
-			return ResponseEntity.status(500).body("Arka planda bir hata var");
-		}
-		else
-		{
-			return ResponseEntity.status(500).body("Sistemde geçici bir sorun bulunmaktadır");
-		}
-	}
+//	@ExceptionHandler
+//	public ResponseEntity<String> errorhandler(Exception e)
+//	{
+//		if (e.getClass() == BadSqlGrammarException.class)
+//		{
+//			return ResponseEntity.status(500).body("Arka planda bir hata var");
+//		}
+//		else
+//		{
+//			return ResponseEntity.status(500).body("Sistemde geçici bir sorun bulunmaktadır");
+//		}
+//	}
 
 	// MVC için
 //	@GetMapping(path = "/error")

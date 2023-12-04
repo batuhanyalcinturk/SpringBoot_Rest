@@ -22,8 +22,16 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
+        System.err.println("DB 'ye bakılıyor");
+        // kendi user sınıfımı spring security 'nin istediği user sınıfına dönüştürmek
+        // için
         SystemUser myUser = userRepository.getByUserName(username);
+//		if (4 > 2)
+//		{
+//			throw new MusteriActiveOlmamisException("bla bla bla");
+//		}
         User.UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(myUser.getUsername());
         builder.password(myUser.getPassword());
         List<GrantedAuthority> userRoles = userRepository.getUserRoles(myUser.getUsername());
