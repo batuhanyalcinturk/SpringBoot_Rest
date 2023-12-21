@@ -3,22 +3,22 @@ package com.graysan.springbootrest.model;
 public class Ogrenci {
     private long id;
     private String name;
-    private long number;
+    private long ogr_number;
     private long year;
 
     public Ogrenci() {
     }
 
-    public Ogrenci(String name, long number, long year) {
+    public Ogrenci(String name, long ogr_number, long year) {
         this.name = name;
-        this.number = number;
+        this.ogr_number = ogr_number;
         this.year = year;
     }
 
-    public Ogrenci(long id, String name, long number, long year) {
+    public Ogrenci(long id, String name, long ogr_number, long year) {
         this.id = id;
         this.name = name;
-        this.number = number;
+        this.ogr_number = ogr_number;
         this.year = year;
     }
 
@@ -38,12 +38,12 @@ public class Ogrenci {
         this.name = name;
     }
 
-    public long getNumber() {
-        return number;
+    public long getOgr_number() {
+        return ogr_number;
     }
 
-    public void setNumber(long number) {
-        this.number = number;
+    public void setOgr_number(long ogr_number) {
+        this.ogr_number = ogr_number;
     }
 
     public long getYear() {
@@ -59,7 +59,7 @@ public class Ogrenci {
         return "Ogrenci{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", number=" + number +
+                ", number=" + ogr_number +
                 ", year=" + year +
                 '}';
     }

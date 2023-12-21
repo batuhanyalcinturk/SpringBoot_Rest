@@ -52,7 +52,7 @@ public class OgrenciRepository {
         String sql = "INSERT INTO \"public\".\"OGRENCI\"(\"NAME\", \"OGR_NUMBER\", \"YEAR\") VALUES (:NAME, :NUMBER, :YEAR)";
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("NAME", ogr.getName());
-        paramMap.put("NUMBER", ogr.getNumber());
+        paramMap.put("NUMBER", ogr.getOgr_number());
         paramMap.put("YEAR", ogr.getYear());
         return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
 

@@ -1,6 +1,7 @@
 package com.graysan.springbootrest.controller;
 
 import com.graysan.springbootrest.model.Ders;
+import com.graysan.springbootrest.model.DersDTO;
 import com.graysan.springbootrest.repository.DersRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +28,22 @@ public class DersController {
             List<Ders> temp = dersRepository.getAll();
             return ResponseEntity.ok(temp);
         }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(path = "getalldto", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<DersDTO>> getalldto()
+    {
+        // localhost:8080/ders/getalldto
+        try
+        {
+            return ResponseEntity.ok(dersRepository.getAllDTO());
+        }
+        catch (Exception e)
+        {
+            // daha sonra değişecek exception handling olacak
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -83,6 +100,29 @@ public class DersController {
         {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("Kayıt başarı ile kaydedilemedi");
+        }
+    }
+
+    @PostMapping(path = "update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> update(@RequestBody Ders ders)
+    {
+        // localhost:8080/ders/update
+        try
+        {
+            boolean result = dersRepository.update(ders);
+            if (result)
+            {
+                return ResponseEntity.ok("Kayıt başarı ile güncellendi");
+            }
+            else
+            {
+                return ResponseEntity.internalServerError().body("Kayıt başarı ile güncellendi");
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Kayıt başarı ile güncellendi");
         }
     }
 }

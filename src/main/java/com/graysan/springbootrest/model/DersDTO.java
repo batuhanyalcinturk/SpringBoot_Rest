@@ -2,27 +2,39 @@ package com.graysan.springbootrest.model;
 
 public class DersDTO
 {
-    private Ogretmen ogr;
+    private long id;
+    private Ogretmen ogretmen;
     private Konu konu;
 
     public DersDTO()
     {
     }
 
-    public DersDTO(Ogretmen ogr, Konu konu)
+    public DersDTO(long id, Ogretmen ogretmen, Konu konu)
     {
-        this.ogr = ogr;
+        this.id = id;
+        this.ogretmen = ogretmen;
         this.konu = konu;
     }
 
-    public Ogretmen getOgr()
+    public long getId()
     {
-        return ogr;
+        return id;
     }
 
-    public void setOgr(Ogretmen ogr)
+    public void setId(long id)
     {
-        this.ogr = ogr;
+        this.id = id;
+    }
+
+    public Ogretmen getOgretmen()
+    {
+        return ogretmen;
+    }
+
+    public void setOgretmen(Ogretmen ogretmen)
+    {
+        this.ogretmen = ogretmen;
     }
 
     public Konu getKonu()
@@ -35,9 +47,4 @@ public class DersDTO
         this.konu = konu;
     }
 
-    @Override
-    public String toString()
-    {
-        return "DersDTO [ogr=" + ogr + ", konu=" + konu + "]";
-    }
 }
